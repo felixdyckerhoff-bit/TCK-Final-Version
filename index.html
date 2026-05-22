@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Third Culture Kid Run Club — a run club for the expat and international community. New York · London · Zurich." />
+  <title>Third Culture Kid Run Club</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── TOKENS ── */
+    :root {
+      --bg:         #F8F6F1;
+      --ink:        #0A0A0A;
+      --ink-muted:  rgba(10, 10, 10, 0.42);
+      --rule:       1px solid #0A0A0A;
+      --gutter:     80px;
+      --nav-h:      60px;
+      --section-v:  clamp(72px, 8vw, 120px);
+      --fs-display: clamp(32px, 4.4vw, 68px);
+      --fs-italic:  clamp(14px, 1.3vw, 19px);
+      --fs-body:    clamp(14px, 1.2vw, 18px);
+    }
+
+    /* ── BASE ── */
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .rule { border: none; border-top: var(--rule); margin: 0; }
+
+    .g {
+      font-weight: 100;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+    [data-delay="1"] { transition-delay: 0.10s; }
+    [data-delay="2"] { transition-delay: 0.20s; }
+    [data-delay="3"] { transition-delay: 0.30s; }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(18px, 2.2vw, 28px) var(--gutter);
+      background: transparent;
+    }
+    .site-nav__logo {
+      width: clamp(76px, 8.5vw, 110px);
+      height: clamp(76px, 8.5vw, 110px);
+      mix-blend-mode: multiply;
+      display: block;
+    }
+    .site-nav__link {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.18s ease;
+    }
+    .site-nav__link:hover { opacity: 0.4; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+      padding-bottom: 56px;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      height: 130%;
+      top: -15%;
+    }
+    .hero__bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+      filter: grayscale(100%);
+      opacity: 0.52;
+      will-change: transform;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 220px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: clamp(120px, 14vw, 180px);
+    }
+    .hero__h1 {
+      font-size: clamp(38px, 6vw, 88px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.028em;
+      color: var(--ink);
+      max-width: 14ch;
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+    .hero__sub {
+      font-size: clamp(16px, 1.6vw, 24px);
+      letter-spacing: 0.05em;
+      margin-bottom: clamp(40px, 5vw, 68px);
+    }
+    .hero__sub .place { font-weight: 500; }
+
+    .hero__tagline {
+      font-size: clamp(13px, 1.4vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      margin-bottom: clamp(28px, 3.5vw, 48px);
+    }
+
+    /* Individual pill cards for each social link */
+    .hero__socials {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(8px, 1vw, 14px);
+    }
+    .hero__social-link {
+      display: inline-flex;
+      align-items: baseline;
+      gap: clamp(8px, 1vw, 14px);
+      text-decoration: none;
+      color: var(--ink);
+      font-size: clamp(14px, 1.4vw, 20px);
+      transition: opacity 0.18s ease;
+      width: fit-content;
+      background: rgba(248, 246, 241, 0.88);
+      border-radius: 10px;
+      padding: clamp(10px, 1.1vw, 16px) clamp(16px, 2vw, 28px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(10, 10, 10, 0.08);
+    }
+    .hero__social-link:hover { opacity: 0.5; }
+    .hero__social-link:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+    .hero__platform {
+      font-weight: 900;
+      font-size: clamp(22px, 2.8vw, 42px);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .hero__arrow { font-weight: 900; }
+
+    .hero__scroll {
+      position: absolute;
+      bottom: 24px;
+      left: var(--gutter);
+      font-size: 10px;
+      font-weight: 100;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      z-index: 2;
+    }
+
+    /* ── UPCOMING RUNS ── */
+    .runs {
+      padding: clamp(32px, 4vw, 56px) var(--gutter) var(--section-v);
+    }
+    .runs__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: clamp(28px, 3.5vw, 48px);
+    }
+    .runs__label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .runs__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: var(--rule);
+      border-left: var(--rule);
+    }
+    .run-card {
+      padding: clamp(24px, 3vw, 44px) clamp(20px, 2.5vw, 36px);
+      border-right: var(--rule);
+      border-bottom: var(--rule);
+    }
+    .run-card__city {
+      font-size: clamp(22px, 2.8vw, 42px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: clamp(16px, 2vw, 28px);
+    }
+    .run-card__schedule { font-size: var(--fs-italic); line-height: 2.1; }
+    .run-card__schedule .place { font-weight: 700; }
+    .run-card__placeholder {
+      font-size: var(--fs-italic);
+      font-weight: 100;
+      font-style: italic;
+      color: var(--ink-muted);
+      line-height: 2.1;
+    }
+    .run-card__dates {
+      margin-top: clamp(14px, 1.8vw, 22px);
+      padding-top: clamp(12px, 1.5vw, 18px);
+      border-top: var(--rule);
+      font-size: var(--fs-body);
+      line-height: 2.1;
+      color: var(--ink-muted);
+    }
+    .run-card__date-item { font-weight: 500; color: var(--ink); }
+    .run-card__links {
+      margin-top: clamp(14px, 1.8vw, 22px);
+      display: flex;
+      gap: 18px;
+    }
+    .run-card__link {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+      transition: opacity 0.18s ease;
+    }
+    .run-card__link:hover { opacity: 0.38; }
+
+    /* ── FOOTER ── */
+    footer { padding: 28px var(--gutter); }
+    .footer__text {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.09em;
+      color: var(--ink-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { :root { --gutter: 48px; } }
+
+    @media (max-width: 768px) {
+      :root { --gutter: 32px; }
+      .runs__grid { grid-template-columns: 1fr 1fr; }
+      .hero__h1 { font-size: clamp(36px, 9vw, 72px); }
+      .site-nav__logo { width: 64px; height: 64px; }
+    }
+
+    @media (max-width: 540px) {
+      :root { --gutter: 20px; }
+      .runs__grid { grid-template-columns: 1fr; }
+      .hero__socials { gap: 10px; }
+      .hero__social-link { padding: 12px 18px; }
+      .hero__platform { font-size: clamp(20px, 6vw, 34px); }
+      .hero__content { padding-top: 100px; }
+      .site-nav__logo { width: 54px; height: 54px; }
+      .site-nav__link { font-size: 13px; padding: 8px 0; }
+      .runs__header { flex-direction: column; gap: 4px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section class="hero" aria-label="Third Culture Kid Run Club">
+
+      <div class="hero__bg" aria-hidden="true">
+        <img src="Pictures/IMG_0200.jpg" alt="" id="heroBgImg" />
+      </div>
+
+      <!-- Nav overlaid on hero image — no background banner -->
+      <nav class="site-nav" aria-label="Site navigation">
+        <a href="index.html" aria-label="TCK Run Club home">
+          <img class="site-nav__logo" src="Pictures/logo svg copy.png" alt="TCK Run Club" />
+        </a>
+        <a class="site-nav__link" href="about.html">About</a>
+      </nav>
+
+      <div class="hero__content">
+
+        <h1 class="hero__h1" data-reveal>
+          Third Culture Kid<br>Run Club
+        </h1>
+
+        <p class="hero__tagline" data-reveal data-delay="1">Hub of transplants.</p>
+
+        <nav class="hero__socials" aria-label="Social links" data-reveal data-delay="2">
+          <a class="hero__social-link"
+             href="https://www.instagram.com/thirdculturekid_run_club"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Find us on Instagram">
+            <span class="hero__platform">Instagram</span>
+            <span class="hero__arrow">&rarr;</span>
+          </a>
+          <a class="hero__social-link"
+             href="https://www.strava.com/clubs/1979623?share_sig=BBDF54CE1775930190&_branch_match_id=1323710545611007012&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXLy4pSixL1EssKNDLyczL1vc3yTVwc%2FaNTDNKsq8rSk1LLSrKzEuPTyrKLy9OLbJ1zijKz00FAMFv9Y09AAAA"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Run with us on Strava">
+            <span class="hero__platform">Strava</span>
+            <span class="hero__arrow">&rarr;</span>
+          </a>
+          <a class="hero__social-link"
+             href="https://chat.whatsapp.com/L5MW5Lezn8oKWT0pmB81Yo"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Join us on WhatsApp">
+            <span class="hero__platform">WhatsApp</span>
+            <span class="hero__arrow">&rarr;</span>
+          </a>
+        </nav>
+
+      </div><!-- /.hero__content -->
+
+      <p class="hero__scroll" aria-hidden="true">scroll &darr;</p>
+
+    </section>
+
+    <hr class="rule" />
+
+
+    <!-- ── UPCOMING RUNS ── -->
+    <section class="runs" id="runs" aria-label="Upcoming runs">
+
+      <div class="runs__header" data-reveal>
+        <span class="runs__label">Upcoming Runs</span>
+        <span class="runs__label">Next 5 dates per city</span>
+      </div>
+
+      <div class="runs__grid">
+
+        <!-- NEW YORK — Saturday -->
+        <div class="run-card" data-reveal>
+          <div class="run-card__city">New York</div>
+          <div class="run-card__schedule">
+            <div><span class="g">every</span> <span class="place">Saturday</span></div>
+            <div><span class="g">from</span> <span class="place">10:00 AM</span></div>
+            <div><span class="g">at</span> <span class="place">West Side Highway, Pier&nbsp;48</span></div>
+          </div>
+          <div class="run-card__dates" data-run-day="6"></div>
+          <div class="run-card__links">
+            <a class="run-card__link"
+               href="https://www.strava.com/clubs/1979623"
+               target="_blank" rel="noopener noreferrer">Strava</a>
+            <a class="run-card__link"
+               href="https://chat.whatsapp.com/L5MW5Lezn8oKWT0pmB81Yo"
+               target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- LONDON — Saturday -->
+        <div class="run-card" data-reveal data-delay="1">
+          <div class="run-card__city">London</div>
+          <div class="run-card__schedule">
+            <div><span class="g">every</span> <span class="place">Saturday</span></div>
+            <div><span class="g">from</span> <span class="place">10:00 AM</span></div>
+            <div><span class="g">at</span> <span class="place">Hyde Park</span></div>
+          </div>
+          <div class="run-card__dates" data-run-day="6"></div>
+          <div class="run-card__links">
+            <!-- TODO: London Strava URL -->
+            <a class="run-card__link" href="#" target="_blank" rel="noopener noreferrer">Strava</a>
+          </div>
+        </div>
+
+        <!-- ZURICH — Sunday -->
+        <div class="run-card" data-reveal data-delay="2">
+          <div class="run-card__city">Zurich</div>
+          <div class="run-card__schedule">
+            <div><span class="g">every</span> <span class="place">Sunday</span></div>
+            <div><span class="g">from</span> <span class="place">10:00 AM</span></div>
+            <div><span class="g">at</span> <span class="place">B&uuml;rkliPlatz</span></div>
+          </div>
+          <div class="run-card__dates" data-run-day="0"></div>
+          <div class="run-card__links">
+            <!-- TODO: Zurich Strava URL -->
+            <a class="run-card__link" href="#" target="_blank" rel="noopener noreferrer">Strava</a>
+          </div>
+        </div>
+
+      </div><!-- /.runs__grid -->
+
+    </section>
+
+  </main>
+
+  <hr class="rule" />
+
+  <footer>
+    <p class="footer__text">Third Culture Kid Run Club. New York. &copy;&nbsp;2026</p>
+  </footer>
+
+
+  <script>
+
+    // ── SCROLL REVEAL ──
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const d = parseFloat(e.target.dataset.delay || 0);
+        setTimeout(() => e.target.classList.add('is-visible'), d * 120);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // ── HERO PARALLAX ──
+    const heroBg = document.getElementById('heroBgImg');
+    if (heroBg) {
+      let raf = false;
+      window.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = true;
+        requestAnimationFrame(() => {
+          heroBg.style.transform = `translateY(${window.scrollY * 0.22}px)`;
+          raf = false;
+        });
+      }, { passive: true });
+    }
+
+    // ── AUTO-GENERATE UPCOMING RUN DATES ──
+    // Generates the next N occurrences of a given day-of-week (0=Sun … 6=Sat)
+    function nextOccurrences(dayOfWeek, count = 5) {
+      const results = [];
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 1); // start from tomorrow
+      while (results.length < count) {
+        if (d.getDay() === dayOfWeek) results.push(new Date(d));
+        d.setDate(d.getDate() + 1);
+      }
+      return results;
+    }
+
+    function formatDate(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    document.querySelectorAll('[data-run-day]').forEach(el => {
+      const day = parseInt(el.dataset.runDay); // 0 = Sunday, 6 = Saturday
+      const dates = nextOccurrences(day, 5);
+      el.innerHTML = dates
+        .map(d => `<div class="run-card__date-item">${formatDate(d)}</div>`)
+        .join('');
+    });
+
+  </script>
+
+</body>
+</html>
